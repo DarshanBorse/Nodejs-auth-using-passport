@@ -1,5 +1,5 @@
 {
-  "name": "node-authentication",
+  "name": "node-authentication-using-passport",
   "version": "1.0.0",
   "description": "Learning base",
   "main": "index.js",
