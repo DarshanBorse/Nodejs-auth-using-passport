@@ -38,7 +38,6 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser(function (token, done) {
-    console.log(token);
     done(null, token);
 });
 

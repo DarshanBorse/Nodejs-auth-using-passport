@@ -8,13 +8,9 @@ const GoogleRoutes = (app) => {
 
     app.route('/google')
         .get(passport.authenticate('google', {
-            failureMessage: 'Cannot login to Google, Please try again',
-            failureRedirect: '/fail',
-            successRedirect: '/'
-        }), (req, res) => {
-            console.log(req.token);
-            return res.send("Thank you for signing in");
-        });
+            successRedirect: '/',
+            failureRedirect: '/fail'
+        }));
 }
 
 export default GoogleRoutes;
