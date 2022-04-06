@@ -29,7 +29,11 @@ passport.use(new FacebookStrategy({
                     return cb(error, profile);
                 });
             } else {
-                return cb(null, profile);
+                const token = jsonwebtoken.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+                    expiresIn: process.env.JWT_TOKEN_EXPIRE
+                });
+
+                cb(null, token);
             }
         });
     }
