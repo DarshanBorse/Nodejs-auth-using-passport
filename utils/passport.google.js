@@ -2,17 +2,10 @@ import passport from "passport";
 import { config } from "dotenv";
 import { UserModel } from "../model/user.model";
 import bcryptjs from "bcryptjs";
+import jsonwebtoken from "jsonwebtoken";
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 config();
-
-passport.serializeUser(function (user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-    done(null, user);
-});
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -32,10 +25,24 @@ passport.use(new GoogleStrategy({
                 password: bcryptjs.hashSync(Math.random().toString(), 8)
             });
             newUser.save((error, profile) => {
-                return done(error, profile);
+                done(error, profile);
             });
         } else {
-            return done(null, accessToken)
+            const token = jsonwebtoken.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+                expiresIn: process.env.JWT_TOKEN_EXPIRE
+            });
+
+            done(null, token);
         }
     });
 }));
+
+passport.serializeUser(function (token, done) {
+    console.log(token);
+    done(null, token);
+});
+
+passport.deserializeUser(function (user, done) {
+    console.log('error');
+    done(null, user);
+});

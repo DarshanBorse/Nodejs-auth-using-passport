@@ -13,8 +13,12 @@ config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Body Parser 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Passport 
+app.use(passport.initialize());
 
 // Database Connection 
 mongoose.Promise = global.Promise;
